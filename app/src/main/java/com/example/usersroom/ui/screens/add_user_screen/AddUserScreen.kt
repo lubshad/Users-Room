@@ -1,5 +1,6 @@
 package com.example.usersroom.ui.screens.add_user_screen
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,12 +9,22 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.usersroom.DefaultSpacer
+import com.example.usersroom.ui.screens.Screens
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Composable
-fun AddUserScreen(addUserViewModel: AddUserViewModel= viewModel())  {
+fun AddUserScreen(
+    addUserViewModel: AddUserViewModel = hiltViewModel(),
+    navController: NavController,
+) {
+
+    addUserViewModel.navController = navController
+
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(text = "Add New User") })
@@ -25,7 +36,7 @@ fun AddUserScreen(addUserViewModel: AddUserViewModel= viewModel())  {
         ) {
             DefaultSpacer()
             OutlinedTextField(value = addUserViewModel.firstName.value, onValueChange = {
-                                                                                        addUserViewModel.firstName.value = it
+                addUserViewModel.firstName.value = it
             }, label = { Text("First Name") })
             DefaultSpacer()
             OutlinedTextField(value = addUserViewModel.lastName.value, onValueChange = {
@@ -41,6 +52,7 @@ fun AddUserScreen(addUserViewModel: AddUserViewModel= viewModel())  {
             DefaultSpacer()
             Button(onClick = {
                 addUserViewModel.addUser()
+
             }) {
                 Text(text = "Add New User")
             }

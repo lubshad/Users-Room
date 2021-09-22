@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.usersroom.EditUserDetails
 import com.example.usersroom.ui.screens.add_user_screen.AddUserScreen
 import com.example.usersroom.ui.screens.list_user_screen.UserListingScreen
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Composable
 fun Navigation() {
@@ -16,10 +17,10 @@ fun Navigation() {
             UserListingScreen(navController)
         }
         composable(Screens.AddUser.route) {
-            AddUserScreen()
+            AddUserScreen(navController = navController)
         }
         composable(Screens.EditDetails.route) {
-            EditUserDetails()
+            EditUserDetails(navController)
         }
     }
 }

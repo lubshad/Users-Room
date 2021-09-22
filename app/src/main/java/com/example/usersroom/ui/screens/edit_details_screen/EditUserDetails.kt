@@ -4,10 +4,11 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 
 
 @Composable
-fun EditUserDetails(){
+fun EditUserDetails(navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(text = "Edit User Details") })
