@@ -1,4 +1,4 @@
 package com.example.usersroom.domain.usecase
 
-class getAllUserUsecase {
+class GetAllUserUsecase {
 }
