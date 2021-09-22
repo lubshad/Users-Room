@@ -1,12 +1,12 @@
-package com.example.usersroom
+package com.example.usersroom.ui.screens
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-//import com.google.accompanist.navigation.animation.AnimatedNavHost
-//import com.google.accompanist.navigation.animation.composable
+import com.example.usersroom.EditUserDetails
+import com.example.usersroom.ui.screens.add_user_screen.AddUserScreen
+import com.example.usersroom.ui.screens.list_user_screen.UserListingScreen
 
 @Composable
 fun Navigation() {
@@ -21,36 +21,5 @@ fun Navigation() {
         composable(Screens.EditDetails.route) {
             EditUserDetails()
         }
-//        composable(
-//            "Blue",
-//            enterTransition = { initial, _ ->
-//                when (initial.destination.route) {
-//                    "Red" ->
-//                        slideInHorizontally(initialOffsetX = { 1000 }, animationSpec = tween(700))
-//                    else -> null
-//                }
-//            },
-//            exitTransition = { _, target ->
-//                when (target.destination.route) {
-//                    "Red" ->
-//                        slideOutHorizontally(targetOffsetX = { -1000 }, animationSpec = tween(700))
-//                    else -> null
-//                }
-//            },
-//            popEnterTransition = { initial, _ ->
-//                when (initial.destination.route) {
-//                    "Red" ->
-//                        slideInHorizontally(initialOffsetX = { -1000 }, animationSpec = tween(700))
-//                    else -> null
-//                }
-//            },
-//            popExitTransition = { _, target ->
-//                when (target.destination.route) {
-//                    "Red" ->
-//                        slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = tween(700))
-//                    else -> null
-//                }
-//            }
-//        ) { BlueScreen(navController) }
     }
 }

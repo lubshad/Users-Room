@@ -1,10 +1,11 @@
-package com.example.usersroom
+package com.example.usersroom.ui.screens.list_user_screen
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import com.example.usersroom.ui.screens.Screens
 
 @Composable
 fun UserListingScreen(navController: NavHostController) {
