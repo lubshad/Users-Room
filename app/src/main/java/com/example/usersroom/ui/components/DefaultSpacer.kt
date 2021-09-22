@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.usersroom.common.defaultPadding
 
 @Composable
 fun DefaultSpacer() {

@@ -1,4 +1,4 @@
-package com.example.usersroom
+package com.example.usersroom.common
 
 import androidx.compose.ui.unit.dp
 
