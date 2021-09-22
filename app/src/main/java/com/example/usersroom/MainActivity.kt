@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             UsersRoomTheme {
-                AddUserScreen()
+                Navigation()
             }
         }
     }
