@@ -45,7 +45,10 @@ fun AddUserScreen(
             DefaultSpacer()
             OutlinedTextField(value = addUserViewModel.age.value,
                 onValueChange = {
-                    addUserViewModel.age.value = it
+                    val age = it.toIntOrNull()
+                    if (age!= null) {
+                        addUserViewModel.age.value = age.toString()
+                    }
                 },
                 label = { Text("Age") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
