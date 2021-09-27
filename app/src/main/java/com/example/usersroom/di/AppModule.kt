@@ -1,12 +1,15 @@
 package com.example.usersroom.di
 
 import android.content.Context
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.usersroom.data.respository.UserRepositoryImpl
 import com.example.usersroom.data.room.user.UserDao
 import com.example.usersroom.data.room.user.UserDataBase
 import com.example.usersroom.domain.repository.UserRepository
 import com.example.usersroom.domain.usecase.AddUserUsecase
 import com.example.usersroom.domain.usecase.GetAllUserUsecase
+import com.example.usersroom.domain.usecase.UpdateUserUsecase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,5 +55,11 @@ object AppModule {
     @Singleton
     fun provideGetAllUserUsecase(userRepository: UserRepository) :GetAllUserUsecase {
         return GetAllUserUsecase(userRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun updateUserUsecase(userRepository: UserRepository) :UpdateUserUsecase {
+        return UpdateUserUsecase(userRepository)
     }
 }

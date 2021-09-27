@@ -3,6 +3,7 @@ package com.example.usersroom.ui.screens.edit_details_screen
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.material.Snackbar
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -29,6 +30,11 @@ class EditUserViewModel @Inject constructor(
 
     companion object {
         const val TAG = "EditUserViewModel"
+    }
+
+
+    fun deleteUser() {
+
     }
 
     val firstName = mutableStateOf("")

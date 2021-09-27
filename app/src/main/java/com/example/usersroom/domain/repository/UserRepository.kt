@@ -7,4 +7,5 @@ interface UserRepository {
     fun getAllUsers() :LiveData<List<User>>
 
     suspend fun addUser(user: User)
+    suspend fun updateUser(user: User)
 }

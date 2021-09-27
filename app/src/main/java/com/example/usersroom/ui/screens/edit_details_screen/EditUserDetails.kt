@@ -1,21 +1,20 @@
 package com.example.usersroom.ui.screens.edit_details_screen
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.usersroom.DefaultSpacer
-import com.example.usersroom.data.room.user.User
+import com.example.usersroom.ui.components.ShowAlertDialog
 
 
 @Composable
@@ -28,9 +27,16 @@ fun EditUserDetails(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(text = "Edit User Details") })
+            TopAppBar(title = { Text(text = "Edit User Details") },
+                actions = {
+                    IconButton(onClick = {
 
-        }
+                    }) {
+                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete User")
+                    }
+                })
+
+        },
     ) {
         Column(modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -45,9 +51,12 @@ fun EditUserDetails(
                 editUserViewModel.lastName.value = it
             }, label = { Text("Last Name") })
             DefaultSpacer()
-            OutlinedTextField(value = editUserViewModel.age.value.toString(),
+            OutlinedTextField(value = editUserViewModel.age.value,
                 onValueChange = {
-                    editUserViewModel.age.value = it
+                    val age = it.toIntOrNull()
+                    if (age != null) {
+                        editUserViewModel.age.value = age.toString()
+                    }
                 },
                 label = { Text("Age") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
@@ -60,4 +69,6 @@ fun EditUserDetails(
             }
         }
     }
+    ShowAlertDialog()
+
 }

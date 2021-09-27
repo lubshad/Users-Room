@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import androidx.navigation.Navigation.findNavController
 import com.example.usersroom.data.room.user.User
 import com.example.usersroom.domain.usecase.AddUserUsecase
 import com.example.usersroom.ui.screens.Screens
