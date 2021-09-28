@@ -7,7 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun ShowAlertDialog(dismissDialog: ()->Unit, deleteUser: ()->Unit) {
+fun ShowAlertDialog(dismissDialog: ()->Unit, deleteUser: ()->Unit, message :String) {
 
     AlertDialog(
         onDismissRequest = {
@@ -27,6 +27,6 @@ fun ShowAlertDialog(dismissDialog: ()->Unit, deleteUser: ()->Unit) {
                             Text(text = "Cancel")
                         }
         },
-        text = { Text(text = "Are you sure delete this user ?") }
+        text = { Text(text = message) }
     )
 }

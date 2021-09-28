@@ -7,12 +7,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.usersroom.ui.components.ShowAlertDialog
 import com.example.usersroom.ui.screens.Screens
 import com.example.usersroom.ui.screens.list_user_screen.components.UserListItem
 import com.google.gson.Gson
@@ -25,7 +27,15 @@ fun UserListingScreen(
     val userList = userListViewModel.userList.observeAsState()
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(text = "Users List") })
+            TopAppBar(title = { Text(text = "Users List") },
+                actions = {
+                    IconButton(onClick = {
+                        userListViewModel.showDialog()
+                    }) {
+                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete User")
+                    }
+                })
+
 
         },
         floatingActionButton = {
@@ -55,5 +65,8 @@ fun UserListingScreen(
                 }
             }
 
+    }
+    if (userListViewModel.showDialog.value ){
+        ShowAlertDialog(deleteUser ={userListViewModel.deleteUser()}, dismissDialog = {userListViewModel.dismissDialog()}, message = "Are you sure delete all users")
     }
 }

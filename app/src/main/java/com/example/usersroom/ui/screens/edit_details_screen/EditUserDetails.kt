@@ -70,7 +70,7 @@ fun EditUserDetails(
         }
     }
     if (editUserViewModel.showDialog.value ){
-        ShowAlertDialog(deleteUser ={editUserViewModel.deleteUser()}, dismissDialog = {editUserViewModel.dismissDialog()})
+        ShowAlertDialog(deleteUser ={editUserViewModel.deleteUser()}, dismissDialog = {editUserViewModel.dismissDialog()}, message = "Are you sure delete this user")
     }
 
 }
