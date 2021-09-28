@@ -3,13 +3,13 @@ package com.example.usersroom.ui.screens.edit_details_screen
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.material.Snackbar
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.usersroom.data.room.user.User
+import com.example.usersroom.domain.usecase.DeleteUserUsecase
 import com.example.usersroom.domain.usecase.UpdateUserUsecase
 import com.example.usersroom.ui.screens.Screens
 import com.google.gson.Gson
@@ -24,6 +24,7 @@ class EditUserViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     val context: Context,
     val updateUserUsecase: UpdateUserUsecase,
+    val deleteUserUsecase: DeleteUserUsecase,
 ) : ViewModel() {
 
     lateinit var navControler: NavController
@@ -32,9 +33,24 @@ class EditUserViewModel @Inject constructor(
         const val TAG = "EditUserViewModel"
     }
 
+    val showDialog = mutableStateOf(false)
+
+    fun dismissDialog() {
+        Log.i(TAG, "dismissed")
+        showDialog.value = false
+    }
+
+    fun showDialog() {
+        showDialog.value = true
+    }
+
 
     fun deleteUser() {
-
+        val user = User(id, firstName.value, lastName.value, age.value.toInt())
+        viewModelScope.launch {
+            deleteUserUsecase(user)
+        }
+        navControler.popBackStack(Screens.UserListing.route, inclusive = false)
     }
 
     val firstName = mutableStateOf("")
@@ -64,6 +80,7 @@ class EditUserViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 updateUserUsecase(user)
             }
+            dismissDialog()
             navControler.popBackStack(Screens.UserListing.route, inclusive = false)
         }
     }

@@ -1,29 +1,32 @@
 package com.example.usersroom.ui.components
 
 import android.util.Log
-import androidx.compose.foundation.layout.Row
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun ShowAlertDialog() {
+fun ShowAlertDialog(dismissDialog: ()->Unit, deleteUser: ()->Unit) {
 
     AlertDialog(
         onDismissRequest = {
-                           Log.i("Alert", "CANCELLED")
+                           dismissDialog()
         },
         confirmButton = {
-                        Button(onClick = { /*TODO*/ }) {
-                            Text(text = "Delete User")
+                        Button(onClick = {
+                            deleteUser()
+                        }) {
+                            Text(text = "Confirm")
                         }
         },
         dismissButton = {
-                        Button(onClick = { /*TODO*/ }) {
+                        Button(onClick = {
+                            dismissDialog()
+                        }) {
                             Text(text = "Cancel")
                         }
         },
-        text = { Text(text = "Are you sure delete this user") }
+        text = { Text(text = "Are you sure delete this user ?") }
     )
 }

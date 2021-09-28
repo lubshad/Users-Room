@@ -30,7 +30,7 @@ fun EditUserDetails(
             TopAppBar(title = { Text(text = "Edit User Details") },
                 actions = {
                     IconButton(onClick = {
-
+                        editUserViewModel.showDialog()
                     }) {
                         Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete User")
                     }
@@ -69,6 +69,8 @@ fun EditUserDetails(
             }
         }
     }
-    ShowAlertDialog()
+    if (editUserViewModel.showDialog.value ){
+        ShowAlertDialog(deleteUser ={editUserViewModel.deleteUser()}, dismissDialog = {editUserViewModel.dismissDialog()})
+    }
 
 }
