@@ -8,6 +8,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.example.usersroom.data.room.user.Address
 import com.example.usersroom.data.room.user.User
 import com.example.usersroom.domain.usecase.DeleteUserUsecase
 import com.example.usersroom.domain.usecase.UpdateUserUsecase
@@ -46,7 +47,11 @@ class EditUserViewModel @Inject constructor(
 
 
     fun deleteUser() {
-        val user = User(id, firstName.value, lastName.value, age.value.toInt())
+        val address = Address(
+            streetName = streetName.value,
+            streetNumber =streetNumber.value.toInt()
+        )
+        val user = User(id, firstName.value, lastName.value, age.value.toInt(), address = address)
         viewModelScope.launch {
             deleteUserUsecase(user)
         }
@@ -57,6 +62,8 @@ class EditUserViewModel @Inject constructor(
     val lastName = mutableStateOf("")
     val age = mutableStateOf("")
     private val id: Int
+    val streetName = mutableStateOf("")
+    val streetNumber = mutableStateOf("")
 
 
     private fun validInput(context: Context): Boolean {
@@ -75,7 +82,11 @@ class EditUserViewModel @Inject constructor(
 
     fun updateUserDetails() {
         if (validInput(context)) {
-            val user = User(id, firstName.value, lastName.value, age.value.toInt())
+            val address = Address(
+                streetName = streetName.value,
+                streetNumber =streetNumber.value.toInt()
+            )
+            val user = User(id, firstName.value, lastName.value, age.value.toInt(), address = address)
             Log.i(TAG, user.toString())
             viewModelScope.launch(Dispatchers.IO) {
                 updateUserUsecase(user)
@@ -92,6 +103,8 @@ class EditUserViewModel @Inject constructor(
             lastName.value = convertedUser.lastName
             age.value = convertedUser.age.toString()
             id = convertedUser.id
+            streetName.value = convertedUser.address.streetName
+            streetNumber.value = convertedUser.address.streetNumber.toString()
         }
     }
 }

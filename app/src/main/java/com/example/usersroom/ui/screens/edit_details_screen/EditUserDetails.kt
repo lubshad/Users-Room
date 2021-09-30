@@ -61,6 +61,17 @@ fun EditUserDetails(
                 label = { Text("Age") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
             DefaultSpacer()
+            OutlinedTextField(value = editUserViewModel.streetName.value, onValueChange = {
+                editUserViewModel.streetName.value = it
+            }, label = { Text("Street Name") })
+            DefaultSpacer()
+            OutlinedTextField(value = editUserViewModel.streetNumber.value, onValueChange = {
+                val streetNumber = it.toIntOrNull()
+                if (streetNumber != null) {
+                    editUserViewModel.streetNumber.value = streetNumber.toString()
+                }
+            }, label = { Text("Street Number") },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
+            DefaultSpacer()
             Button(onClick = {
                 editUserViewModel.updateUserDetails()
 
