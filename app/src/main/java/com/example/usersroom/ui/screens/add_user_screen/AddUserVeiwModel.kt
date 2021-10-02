@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
+import com.example.usersroom.data.room.user.Address
 import com.example.usersroom.data.room.user.User
 import com.example.usersroom.domain.usecase.AddUserUsecase
 import com.example.usersroom.ui.screens.Screens
@@ -31,7 +32,7 @@ class AddUserViewModel @Inject constructor(
 
     private fun validInput(context: Context): Boolean {
         val valid =
-            !((firstName.value.isEmpty() || lastName.value.isEmpty() || age.value.isEmpty()))
+            !((firstName.value.isEmpty() || lastName.value.isEmpty() || age.value.isEmpty() || streetName.value.isEmpty() || streetNumber.value.isEmpty()))
         if (!valid) {
             Toast.makeText(
                 context,
@@ -45,10 +46,15 @@ class AddUserViewModel @Inject constructor(
     fun addUser() {
         if (validInput(context)) {
             Log.i(TAG, "${firstName.value}, ${lastName.value} , ${age.value}")
+            val address = Address(
+                streetName = streetName.value,
+                streetNumber =streetNumber.value.toInt()
+            )
             val user = User(0,
                 firstName = firstName.value,
                 lastName = lastName.value,
-                age = age.value.toInt()
+                age = age.value.toInt(),
+                address = address
             )
             viewModelScope.launch(Dispatchers.IO) {
                 addUserUsecase(user)
@@ -60,4 +66,6 @@ class AddUserViewModel @Inject constructor(
     val firstName = mutableStateOf("")
     val lastName = mutableStateOf("")
     val age = mutableStateOf("")
+    val streetName = mutableStateOf("")
+    val streetNumber = mutableStateOf("")
 }
