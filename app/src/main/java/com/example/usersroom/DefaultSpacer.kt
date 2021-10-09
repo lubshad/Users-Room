@@ -9,11 +9,11 @@ import com.example.usersroom.common.defaultPadding
 
 @Composable
 fun DefaultSpacer() {
-    Spacer(modifier = Modifier.height(defaultPadding / 2))
+    Spacer(modifier = Modifier.height(defaultPadding /2))
 }
 
 
 @Composable
 fun DefaultSpacerHorizontal() {
-    Spacer(modifier = Modifier.width(defaultPadding))
+    Spacer(modifier = Modifier.width(defaultPadding / 2))
 }

@@ -2,6 +2,7 @@ package com.example.usersroom.ui.screens.list_user_screen.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.MaterialTheme
@@ -28,7 +29,21 @@ fun UserListItem(user: User, onClick:()-> Unit) {
         Text(text = user.id.toString(),
             style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold))
         DefaultSpacerHorizontal()
-        Text(text = "${user.firstName} ${user.lastName}   ${user.age}",
-            style = MaterialTheme.typography.h6)
+        Column {
+            Text(text = "${user.firstName}",
+                style = MaterialTheme.typography.h6)
+            DefaultSpacer()
+            Text(text = "${user.lastName}",
+                style = MaterialTheme.typography.h6)
+        }
+
+        DefaultSpacerHorizontal()
+        Column {
+            Text(text = "${user.address.streetName}",
+                style = MaterialTheme.typography.h6)
+            DefaultSpacer()
+            Text(text = "${user.address.streetNumber}",
+                style = MaterialTheme.typography.h6)
+        }
     }
 }

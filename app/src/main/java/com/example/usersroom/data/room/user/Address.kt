@@ -1,4 +1,6 @@
 package com.example.usersroom.data.room.user
 
-class Address {
-}
+data class Address(
+    val streetName: String,
+    val streetNumber: Int,
+)
