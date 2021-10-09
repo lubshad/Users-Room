@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.usersroom.DefaultSpacer
+import com.example.usersroom.ui.components.ShowImagePickerAlertDialog
 
 
 @Composable
@@ -39,12 +40,18 @@ fun AddUserScreen(
 ) {
 
 
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) {
-        addUserViewModel.image.value = it
-    }
-
     val scrollableState = rememberScrollState()
 
+
+    val cameraImageLaucher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) {
+            addUserViewModel.setImageFromCamera(it)
+        }
+
+    val galleryImageLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
+            addUserViewModel.setImageFromGallery(it)
+        }
 
 
 
@@ -79,7 +86,11 @@ fun AddUserScreen(
                         )
                     }
 
-                    IconButton(onClick = { launcher.launch() },
+                    IconButton(onClick = {
+                        if (!addUserViewModel.showDialog.value) {
+                            addUserViewModel.showImagePickerDialog()
+                        }
+                    },
                         modifier = Modifier.align(Alignment.BottomCenter)) {
                         Icon(imageVector = if (addUserViewModel.image.value == null) Icons.Default.Add else Icons.Default.Edit,
                             contentDescription = "Edit Photo",
@@ -151,7 +162,7 @@ fun AddUserScreen(
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
             }
             item {
-
+                DefaultSpacer()
                 DefaultSpacer()
             }
             item {
@@ -164,5 +175,10 @@ fun AddUserScreen(
                 }
             }
         }
+    }
+    if (addUserViewModel.showDialog.value) {
+        ShowImagePickerAlertDialog(dismissDialog = { addUserViewModel.hideImagePickerDialog() },
+            pickImageFromGallery = { galleryImageLauncher.launch("image/*") },
+            pickImageFromCamera = { cameraImageLaucher.launch() })
     }
 }

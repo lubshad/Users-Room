@@ -1,14 +1,12 @@
 package com.example.usersroom.ui.screens.add_user_screen
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.mutableStateOf
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -35,6 +33,15 @@ class AddUserViewModel @Inject constructor(
     }
 
     val image = mutableStateOf<Bitmap?>(null)
+    val showDialog = mutableStateOf(false)
+
+    fun showImagePickerDialog() {
+        showDialog.value = true
+    }
+
+    fun hideImagePickerDialog() {
+        showDialog.value = false
+    }
 
     private fun validInput(context: Context): Boolean {
         val valid =
@@ -67,6 +74,18 @@ class AddUserViewModel @Inject constructor(
             }
             navController.popBackStack(Screens.UserListing.route, inclusive = false)
         }
+    }
+
+    fun setImageFromGallery(uri: Uri) {
+        val source = ImageDecoder.createSource(context.contentResolver, uri)
+        val bitmapImage = ImageDecoder.decodeBitmap(source)
+        image.value = bitmapImage
+        hideImagePickerDialog()
+    }
+
+    fun setImageFromCamera(it: Bitmap) {
+        image.value = it
+        hideImagePickerDialog()
     }
 
     val firstName = mutableStateOf("")
