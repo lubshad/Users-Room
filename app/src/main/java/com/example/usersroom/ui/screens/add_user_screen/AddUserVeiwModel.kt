@@ -1,13 +1,17 @@
 package com.example.usersroom.ui.screens.add_user_screen
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import androidx.navigation.Navigation.findNavController
 import com.example.usersroom.data.room.user.Address
 import com.example.usersroom.data.room.user.User
 import com.example.usersroom.domain.usecase.AddUserUsecase
@@ -30,6 +34,8 @@ class AddUserViewModel @Inject constructor(
         const val TAG = "AddUserViewModel"
     }
 
+    val image = mutableStateOf<Bitmap?>(null)
+
     private fun validInput(context: Context): Boolean {
         val valid =
             !((firstName.value.isEmpty() || lastName.value.isEmpty() || age.value.isEmpty() || streetName.value.isEmpty() || streetNumber.value.isEmpty()))
@@ -48,7 +54,7 @@ class AddUserViewModel @Inject constructor(
             Log.i(TAG, "${firstName.value}, ${lastName.value} , ${age.value}")
             val address = Address(
                 streetName = streetName.value,
-                streetNumber =streetNumber.value.toInt()
+                streetNumber = streetNumber.value.toInt()
             )
             val user = User(0,
                 firstName = firstName.value,

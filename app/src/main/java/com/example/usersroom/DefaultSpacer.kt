@@ -9,7 +9,7 @@ import com.example.usersroom.common.defaultPadding
 
 @Composable
 fun DefaultSpacer() {
-    Spacer(modifier = Modifier.height(defaultPadding))
+    Spacer(modifier = Modifier.height(defaultPadding / 2))
 }
 
 

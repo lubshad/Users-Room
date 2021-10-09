@@ -1,18 +1,30 @@
 package com.example.usersroom.ui.screens.add_user_screen
 
+import android.graphics.Bitmap
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.ScrollableState
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -22,11 +34,26 @@ import androidx.navigation.NavController
 import com.example.usersroom.DefaultSpacer
 import com.example.usersroom.R
 
+
+
+
 @Composable
 fun AddUserScreen(
     addUserViewModel: AddUserViewModel = hiltViewModel(),
     navController: NavController,
 ) {
+
+
+
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) {
+        addUserViewModel.image.value = it
+    }
+
+    val scrollableState = rememberScrollState()
+
+
+
+
 
     addUserViewModel.navController = navController
 
@@ -35,27 +62,37 @@ fun AddUserScreen(
             TopAppBar(title = { Text(text = "Add New User") })
         }
     ) {
-        Column(modifier = Modifier.fillMaxSize(),
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .scrollable(scrollableState, orientation = Orientation.Vertical)
+            ,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
             DefaultSpacer()
 
             Box() {
-                Image(
-                    painter = painterResource(R.drawable.user_image),
-                    contentDescription = "avatar",
-                    contentScale = ContentScale.Crop,            // crop the image if it's not a square
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(CircleShape)            // add a border (optional)
-                )
-                IconButton(onClick = { /*TODO*/ }, modifier= Modifier.align(Alignment.BottomCenter)) {
-                    Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit Photo", tint = Color.White)
+                addUserViewModel.image.value?.let { image ->
+                    Image(
+                        image.asImageBitmap(),
+                        contentDescription = "avatar",
+                        contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                        modifier = Modifier
+                            .size(100.dp)
+                            .clip(CircleShape)            // add a border (optional)
+                    )
+                }
+
+                IconButton(onClick = { launcher.launch() },
+                    modifier = Modifier.align(Alignment.BottomCenter)) {
+                    Icon(imageVector = if (addUserViewModel.image.value ==null) Icons.Default.Add else Icons.Default.Edit,
+                        contentDescription = "Edit Photo",
+                        tint = if (addUserViewModel.image.value ==null) Color.Black else Color.White)
                 }
             }
             DefaultSpacer()
-            OutlinedTextField(value = addUserViewModel.firstName.value, onValueChange = {
+            OutlinedTextField(
+                value = addUserViewModel.firstName.value, onValueChange = {
                 addUserViewModel.firstName.value = it
             }, label = { Text("First Name") })
             DefaultSpacer()
