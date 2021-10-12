@@ -1,8 +1,10 @@
 package com.example.usersroom.ui.screens.add_user_screen
 
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -33,6 +35,7 @@ import com.example.usersroom.DefaultSpacer
 import com.example.usersroom.ui.components.ShowImagePickerAlertDialog
 
 
+@RequiresApi(Build.VERSION_CODES.P)
 @Composable
 fun AddUserScreen(
     addUserViewModel: AddUserViewModel = hiltViewModel(),
@@ -41,6 +44,8 @@ fun AddUserScreen(
 
 
     val scrollableState = rememberScrollState()
+
+
 
 
     val cameraImageLaucher =
