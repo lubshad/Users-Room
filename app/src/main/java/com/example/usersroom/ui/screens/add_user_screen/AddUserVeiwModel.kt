@@ -4,8 +4,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -67,7 +69,8 @@ class AddUserViewModel @Inject constructor(
                 firstName = firstName.value,
                 lastName = lastName.value,
                 age = age.value.toInt(),
-                address = address
+                address = address,
+                userImage = image.value!!,
             )
             viewModelScope.launch(Dispatchers.IO) {
                 addUserUsecase(user)
@@ -75,6 +78,8 @@ class AddUserViewModel @Inject constructor(
             navController.popBackStack(Screens.UserListing.route, inclusive = false)
         }
     }
+
+
 
     fun setImageFromGallery(uri: Uri) {
         val source = ImageDecoder.createSource(context.contentResolver, uri)

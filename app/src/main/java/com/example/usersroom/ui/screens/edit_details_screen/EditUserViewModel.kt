@@ -1,6 +1,9 @@
 package com.example.usersroom.ui.screens.edit_details_screen
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
@@ -36,6 +39,8 @@ class EditUserViewModel @Inject constructor(
 
     val showDialog = mutableStateOf(false)
 
+    val image = mutableStateOf<Bitmap?>(null)
+
     fun dismissDialog() {
         Log.i(TAG, "dismissed")
         showDialog.value = false
@@ -45,13 +50,34 @@ class EditUserViewModel @Inject constructor(
         showDialog.value = true
     }
 
+    fun showImagePickerDialog() {
+        showDialog.value = true
+    }
+
+    fun hideImagePickerDialog() {
+        showDialog.value = false
+    }
+
+
+    fun setImageFromGallery(uri: Uri) {
+        val source = ImageDecoder.createSource(context.contentResolver, uri)
+        val bitmapImage = ImageDecoder.decodeBitmap(source)
+        image.value = bitmapImage
+        hideImagePickerDialog()
+    }
+
+    fun setImageFromCamera(it: Bitmap) {
+        image.value = it
+        hideImagePickerDialog()
+    }
+
 
     fun deleteUser() {
         val address = Address(
             streetName = streetName.value,
             streetNumber =streetNumber.value.toInt()
         )
-        val user = User(id, firstName.value, lastName.value, age.value.toInt(), address = address)
+        val user = User(id, firstName.value, lastName.value, age.value.toInt(), address = address, userImage = image.value!!)
         viewModelScope.launch {
             deleteUserUsecase(user)
         }
@@ -86,7 +112,7 @@ class EditUserViewModel @Inject constructor(
                 streetName = streetName.value,
                 streetNumber =streetNumber.value.toInt()
             )
-            val user = User(id, firstName.value, lastName.value, age.value.toInt(), address = address)
+            val user = User(id, firstName.value, lastName.value, age.value.toInt(), address = address, userImage = image.value!!)
             Log.i(TAG, user.toString())
             viewModelScope.launch(Dispatchers.IO) {
                 updateUserUsecase(user)
@@ -105,6 +131,7 @@ class EditUserViewModel @Inject constructor(
             id = convertedUser.id
             streetName.value = convertedUser.address.streetName
             streetNumber.value = convertedUser.address.streetNumber.toString()
+            image.value = convertedUser.userImage
         }
     }
 }
