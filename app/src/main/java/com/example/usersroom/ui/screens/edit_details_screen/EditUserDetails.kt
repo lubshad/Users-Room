@@ -39,12 +39,19 @@ fun EditUserDetails(
 
     val cameraImageLaucher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) {
-            editUserViewModel.setImageFromCamera(it)
+
+            if (it != null) {
+
+                editUserViewModel.setImageFromCamera(it)
+            }
         }
 
     val galleryImageLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
-            editUserViewModel.setImageFromGallery(it)
+            if (it != null) {
+
+                editUserViewModel.setImageFromGallery(it)
+            }
         }
 
     Scaffold(

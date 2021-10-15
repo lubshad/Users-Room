@@ -50,12 +50,16 @@ fun AddUserScreen(
 
     val cameraImageLaucher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) {
-            addUserViewModel.setImageFromCamera(it)
+            if (it != null) {
+                addUserViewModel.setImageFromCamera(it)
+            }
         }
 
     val galleryImageLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
-            addUserViewModel.setImageFromGallery(it)
+            if (it != null) {
+                addUserViewModel.setImageFromGallery(it)
+            }
         }
 
 

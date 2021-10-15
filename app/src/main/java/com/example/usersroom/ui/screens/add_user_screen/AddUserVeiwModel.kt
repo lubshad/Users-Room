@@ -46,7 +46,9 @@ class AddUserViewModel @Inject constructor(
     }
 
     private fun validInput(context: Context): Boolean {
-        val valid =
+        var valid : Boolean
+
+        valid =
             !((firstName.value.isEmpty() || lastName.value.isEmpty() || age.value.isEmpty() || streetName.value.isEmpty() || streetNumber.value.isEmpty()))
         if (!valid) {
             Toast.makeText(
@@ -54,6 +56,16 @@ class AddUserViewModel @Inject constructor(
                 "Please fill all fields",
                 Toast.LENGTH_SHORT
             ).show()
+        }
+        else  {
+            valid = image.value != null
+            if (!valid) {
+                Toast.makeText(
+                    context,
+                    "Please add profile picture",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
         return valid
     }
